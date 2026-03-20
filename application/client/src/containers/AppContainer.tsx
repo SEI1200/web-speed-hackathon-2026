@@ -49,6 +49,11 @@ export const AppContainer = () => {
         <Helmet>
           <title>読込中 - CaX</title>
         </Helmet>
+        <div className="bg-cax-canvas text-cax-text flex h-screen items-center justify-center">
+          <span className="font-serif animate-pulse text-2xl font-bold italic tracking-tighter text-cax-brand">
+            CaX
+          </span>
+        </div>
       </HelmetProvider>
     );
   }
