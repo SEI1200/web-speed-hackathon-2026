@@ -96,7 +96,8 @@ export const ChatInput = ({ isStreaming, onSendMessage }: Props) => {
     let mounted = true;
 
     const init = async () => {
-      const kuromojiLib = (await import("kuromoji")).default;
+      const kuromojiModule = await import("kuromoji");
+      const kuromojiLib = kuromojiModule.default || kuromojiModule;
       const builder = kuromojiLib.builder({ dicPath: "/dicts" });
       const nextTokenizer = await new Promise<Tokenizer<IpadicFeatures>>((resolve, reject) => {
         builder.build((err, tokenizer) => {

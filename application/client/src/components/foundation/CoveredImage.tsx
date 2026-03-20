@@ -38,7 +38,7 @@ export const CoveredImage = ({ src }: Props) => {
         <div className="flex flex-col gap-4 p-4 sm:p-6 sm:pb-4">
           <img alt="" className="mx-auto block" src={src} />
           <div className="flex shrink-0 grow-0 justify-end">
-            <Button command="close" commandfor={modalId} styleType="secondary">
+            <Button command="close" commandfor={modalId} variant="secondary">
               閉じる
             </Button>
           </div>

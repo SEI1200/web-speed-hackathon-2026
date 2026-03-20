@@ -1,7 +1,8 @@
 import type { Tokenizer, IpadicFeatures } from "kuromoji";
 
 async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
-  const kuromojiLib = (await import("kuromoji")).default;
+  const kuromojiModule = await import("kuromoji");
+  const kuromojiLib = kuromojiModule.default || kuromojiModule;
   const builder = kuromojiLib.builder({ dicPath: "/dicts" });
   return new Promise<Tokenizer<IpadicFeatures>>((resolve, reject) => {
     builder.build((err, tokenizer) => {

@@ -10,6 +10,7 @@ import {
   useEffect,
 } from "react";
 
+import { FontAwesomeIcon } from "@web-speed-hackathon-2026/client/src/components/foundation/FontAwesomeIcon";
 import { formatTime } from "@web-speed-hackathon-2026/client/src/utils/date";
 import { DirectMessageFormData } from "@web-speed-hackathon-2026/client/src/direct_message/types";
 import { getProfileImagePath } from "@web-speed-hackathon-2026/client/src/utils/get_path";
@@ -73,15 +74,20 @@ export const DirectMessagePage = ({
   );
 
   useEffect(() => {
-    const id = setInterval(() => {
-      const height = Number(window.getComputedStyle(document.body).height.replace("px", ""));
-      if (height !== scrollHeightRef.current) {
-        scrollHeightRef.current = height;
-        window.scrollTo(0, height);
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // bodyのborder-boxの高さを取得
+        const height = entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height;
+        if (height !== scrollHeightRef.current) {
+          scrollHeightRef.current = height;
+          window.scrollTo(0, document.body.scrollHeight);
+        }
       }
-    }, 1);
+    });
 
-    return () => clearInterval(id);
+    observer.observe(document.body);
+
+    return () => observer.disconnect();
   }, []);
 
   if (conversationError != null) {
@@ -96,9 +102,9 @@ export const DirectMessagePage = ({
     <section className="bg-cax-surface flex min-h-[calc(100vh-(--spacing(12)))] flex-col lg:min-h-screen">
       <header className="border-cax-border bg-cax-surface sticky top-0 z-10 flex items-center gap-2 border-b px-4 py-3">
         <img
-          alt={peer.profileImage.alt}
+          alt={peer.profileImage?.alt ?? ""}
           className="h-12 w-12 rounded-full object-cover"
-          src={getProfileImagePath(peer.profileImage.id)}
+          src={peer.profileImage ? getProfileImagePath(peer.profileImage.id) : ""}
         />
         <div className="min-w-0">
           <h1 className="overflow-hidden text-xl font-bold text-ellipsis whitespace-nowrap">

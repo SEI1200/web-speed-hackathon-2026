@@ -32,8 +32,8 @@ export function filterSuggestionsBM25(
 
   // スコアが高い（＝類似度が高い）ものが下に来るように、上位10件を取得する
   return results
-    .filter((s) => s.score > 0)
-    .sort((a, b) => a.score - b.score)
+    .filter((s) => s.score !== undefined && s.score > 0)
+    .sort((a, b) => (a.score as number) - (b.score as number))
     .slice(-10)
     .map((s) => s.text);
 }
